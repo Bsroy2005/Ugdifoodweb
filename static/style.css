@@ -65,7 +65,14 @@ button {
     border-radius: 5px;
     text-decoration: none;
 }
-
+.permission{
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #dc3545;
+    color: white;
+    border-radius: 5px;
+    text-decoration: none;
+}
 .logout-button:hover {
     background-color: #c82333;
 }

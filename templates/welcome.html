@@ -1,15 +1,21 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <title>Welcome</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body>
     <div class="welcome-container">
-        <h1>Welcome, {{ username }}!</h1>
-        <p>This is your dashboard.</p>
-        <a href="/logout" class="logout-button">Logout</a>
-        <a href="/scan " class="Scan-button">Scan </a>
+      <h1>Welcome, {{ username }}!</h1>
+      <p>This is your dashboard.</p>
+      <!-- <a href="/scan " class="Scan-button">Scan </a> -->
+      <a href="/permission " class="permission">Scan </a>
+      <br /><br />
+      <a href="/logout" class="logout-button">Logout</a>
     </div>
-</body>
+  </body>
 </html>

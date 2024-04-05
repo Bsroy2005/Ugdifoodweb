@@ -1,0 +1,234 @@
+<!-- <!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+   {{ data }}
+</body>
+</html> -->
+<!-- HTML template -->
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Camera Access</title>
+</head>
+<body>
+    <button onclick="requestCameraAccess()">Grant Camera Access</button>
+
+    <script>
+        async function requestCameraAccess() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                // Camera access granted, do something with the stream
+            } catch (error) {
+                console.error('Error accessing camera:', error);
+            }
+        }
+    </script>
+</body>
+</html> -->
+<!-- 
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>QR Code Scanner</title>
+    <style>
+      #scanner-container {
+        position: relative;
+        width: 300px; /* Adjust width as needed */
+        height: 300px; /* Adjust height as needed */
+        margin: 0 auto;
+      }
+
+      #video {
+        width: 100%;
+        height: 100%;
+      }
+
+      #overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="scanner-container">
+      <video id="video" playsinline autoplay></video>
+      <canvas id="overlay"></canvas>
+    </div>
+    <script>
+        async function sendDataToBackend(data) {
+          try {
+            const response = await fetch("/scan", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ data: data }),
+            });
+            // const responseData = await response.json();
+            // console.log('Response from backend:', responseData);
+  
+            // // Redirect to another page using the processed data
+            // window.location.href = '/path_to_another_template';
+          } catch (error) {
+            console.error("Error sending data to backend:", error);
+          }
+        }
+  
+        let videoStream; // Variable to store the video stream
+  
+        async function setupCamera() {
+          try {
+            videoStream = await navigator.mediaDevices.getUserMedia({
+              video: { facingMode: "environment" },
+            });
+            const videoElement = document.getElementById("video");
+            videoElement.srcObject = videoStream;
+          } catch (error) {
+            console.error("Error accessing camera:", error);
+          }
+        }
+  
+        async function decodeQRCode(videoElement) {
+            const canvasElement = document.createElement('canvas');
+            const canvas = canvasElement.getContext('2d');
+            canvasElement.width = videoElement.videoWidth;
+            canvasElement.height = videoElement.videoHeight;
+            canvas.drawImage(videoElement, 0, 0, canvasElement.width, canvasElement.height);
+            const imageData = canvas.getImageData(0, 0, canvasElement.width, canvasElement.height);
+            const code = jsQR(imageData.data, imageData.width, imageData.height);
+            if (code) {
+                return code.data;
+            }
+            return null;
+        }
+  
+        async function scanQRCode() {
+          const videoElement = document.getElementById("video");
+          try {
+            const decodedData = await decodeQRCode(videoElement);
+            if (decodedData) {
+              console.log("QR code decoded:", decodedData);
+              // Here, you can send the decoded data to the server if needed
+              // For example:
+              sendDataToBackend(decodedData);
+  
+              // Stop the camera stream after decoding a QR code
+              stopCamera();
+            }
+          } catch (error) {
+            console.error("Error decoding QR code:", error);
+          }
+        }
+  
+        function stopCamera() {
+          if (videoStream) {
+            const tracks = videoStream.getTracks();
+            tracks.forEach((track) => track.stop());
+          }
+        }
+  
+        // Call setupCamera to start the camera
+        setupCamera();
+  
+        // Set an interval to periodically scan for QR codes
+        setInterval(scanQRCode, 1000); // Adjust the interval as needed
+    </script>
+  </body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>QR Code Scanner</title>
+    <style>
+      #scanner-container {
+        position: relative;
+        width: 300px; /* Adjust width as needed */
+        height: 300px; /* Adjust height as needed */
+        margin: 0 auto;
+      }
+
+      #video {
+        width: 100%;
+        height: 100%;
+      }
+
+      #overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsQR/1.3.1/jsQR.min.js"></script>
+  </head>
+  <body>
+    <h1>QR Code Scanner</h1>
+    <!-- <video id="video" playsinline autoplay></video>
+    <canvas id="overlay"></canvas> -->
+    <div id="scanner-container">
+      <video id="video" playsinline autoplay></video>
+      <canvas id="overlay"></canvas>
+    </div>
+    <script>
+      // Get access to the camera
+      navigator.mediaDevices
+        .getUserMedia({ video: { facingMode: "environment" } })
+        .then(function (stream) {
+          // Attach the stream to the video element
+          var video = document.getElementById("video");
+          video.srcObject = stream;
+          video.setAttribute("playsinline", true);
+          video.play();
+
+          // Start decoding the QR code from the camera feed
+          scanQRCode();
+        })
+        .catch(function (error) {
+          console.error("Error accessing camera:", error);
+        });
+
+      function scanQRCode() {
+        // Get the video element and canvas
+        var video = document.getElementById("video");
+        var canvas = document.getElementById("canvas");
+        var context = canvas.getContext("2d");
+
+        // Set canvas dimensions to match video dimensions
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+
+        // Draw video frame onto the canvas
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+        // Decode QR code from canvas
+        var imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+        var code = jsQR(imageData.data, imageData.width, imageData.height);
+
+        // If QR code is detected, handle the result
+        if (code) {
+          console.log("QR Code Detected:", code.data);
+          // Here you can handle the decoded QR code data
+          alert("QR Code Detected: " + code.data);
+        } else {
+          // No QR code detected, continue scanning
+          requestAnimationFrame(scanQRCode);
+        }
+      }
+    </script>
+  </body>
+</html>
