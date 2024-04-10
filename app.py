@@ -122,7 +122,7 @@ def mydecrypt(input_data):
             return out_data 
         except:
             decrypted = fernet.decrypt(data)
-            with open("guests.json", "r") as file:
+            with open("reg_guests.json", "r") as file:
                 read_data=json.load(file)
             # with open(output_file, 'wb') as f:
             #     f.write(decrypted)  # Write the decrypted bytes to the output file
@@ -131,7 +131,7 @@ def mydecrypt(input_data):
                 out_data=read_data[out_id]
                 if out_data!='QR HAS BEEN EXPIRED':
                     read_data[out_id]="QR HAS BEEN EXPIRED"
-                    with open("guests.json", "w") as file:
+                    with open("reg_guests.json", "w") as file:
                         json.dump(read_data, file)
                 return out_data 
             except:
