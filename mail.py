@@ -7,14 +7,14 @@ import pandas as pd
 import os
 import json
 # import myende
-df = pd.read_excel('sheet_guest.xlsx')
+df = pd.read_excel('extra_reg.xlsx')
 # df = pd.read_excel('sheet1.xlsx')
 from cryptography.fernet import Fernet, InvalidToken
 
 file = open('key.key', 'rb')  # Open the file as wb to read bytes
 key = file.read()  # The key will be type bytes
 file.close()
-with open('reg_guests.json', 'r') as file:
+with open('normal.json', 'r') as file:
     guests = json.load(file)
 def myencrypt(input_data,id):
     # input_file = 'test.txt'
@@ -65,16 +65,20 @@ for index, row in df.iterrows():
     msg = MIMEMultipart()
     msg['From'] = "telugusamiti.iitd@gmail.com"  # Sender's email address
     msg['To'] = email
-    msg['Subject'] = "ఉగాది పండుగ సంబరాలు - Ugadi event - Guest Food QR Code "
+    msg['Subject'] = "ఉగాది పండుగ సంబరాలు - Food QR code"
 
     # body = f"Dear {name},\n\nPlease find your QR code attached.\n\nBest regards,\nYour Name"
     body = """\
-    Dear inviters,
+    Dear Students,
 
-    Please find the attached Food QR code for the guests you have invited.
-    Please share the file and ensure they carry it to the event.
-    Note: Entering the venue without the two QR codes and id is strictly not allowed.
+    Please find the attached QR code for dinner in the ugadi event. It is compulsory to show the QR code in the dining area.
 
+    Note: There are two QR codes,
+    1) for entry (already sent)
+    2) for dinner (attached here)
+
+    We are looking forward for your gracious presence on this occasion.
+    
     Regards,
     Team Ugadi 2024.
     """
@@ -106,7 +110,7 @@ for index, row in df.iterrows():
         server.quit()
     os.remove(filename)
 
-with open("reg_guests.json", "w") as file:
+with open("normal.json", "w") as file:
     json.dump(guests, file)
 
 # milf zquc fhcy upma
