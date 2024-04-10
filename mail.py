@@ -8,15 +8,14 @@ import os
 import json
 # import myende
 df = pd.read_excel('sheet_guest.xlsx')
-
+# df = pd.read_excel('sheet1.xlsx')
 from cryptography.fernet import Fernet, InvalidToken
 
 file = open('key.key', 'rb')  # Open the file as wb to read bytes
 key = file.read()  # The key will be type bytes
 file.close()
-# with open('normal.json', 'r') as file:
-#     guests = json.load(file)
-guests={}
+with open('reg_guests.json', 'r') as file:
+    guests = json.load(file)
 def myencrypt(input_data,id):
     # input_file = 'test.txt'
     # output_file = 'test.encrypted'
@@ -56,25 +55,25 @@ for index, row in df.iterrows():
     email = str(row['email-id'])
     entry= str(row['Entrynum'])
     number=str(row['Index'])
-    data = number+'\n'+name+'\n'+entry+'\n'+email
+    data = 'Food_Entry'+'\n'+number+'\n'+name+'\n'+entry+'\n'+email
 
     # Generate QR code
-    filename = f"{name}_event.png"
-    generate_qr_code(data,(name+'_event'), filename)
+    filename = f"{name}_food.png"
+    generate_qr_code(data,(name+'_food'), filename)
 
     # Send email with QR code
     msg = MIMEMultipart()
     msg['From'] = "telugusamiti.iitd@gmail.com"  # Sender's email address
     msg['To'] = email
-    msg['Subject'] = "ఉగాది పండుగ సంబరాలు - Ugadi event - Guest Entry QR Code "
+    msg['Subject'] = "ఉగాది పండుగ సంబరాలు - Ugadi event - Guest Food QR Code "
 
     # body = f"Dear {name},\n\nPlease find your QR code attached.\n\nBest regards,\nYour Name"
     body = """\
     Dear inviters,
 
-    Please find the attached Invitation, Event planar, Instructions and Entry QR code for the guest you have invited.
-    Please share these files and ensure they carry them to the event along with hard copy of govt id for verification.
-    Note: You have to take full responsibility of the guest at the event.
+    Please find the attached Food QR code for the guests you have invited.
+    Please share the file and ensure they carry it to the event.
+    Note: Entering the venue without the two QR codes and id is strictly not allowed.
 
     Regards,
     Team Ugadi 2024.
@@ -86,18 +85,6 @@ for index, row in df.iterrows():
     with open(filename, 'rb') as f:
         img_data = f.read()
         image = MIMEImage(img_data, name=filename)
-        msg.attach(image)
-    with open('Instructions.png', 'rb') as f:
-        img_data = f.read()
-        image = MIMEImage(img_data, name='Instructions.png')
-        msg.attach(image)
-    with open('Invitation.jpeg', 'rb') as f:
-        img_data = f.read()
-        image = MIMEImage(img_data, name='Invitation.jpeg')
-        msg.attach(image)
-    with open('UgadhiEventPlanner.png', 'rb') as f:
-        img_data = f.read()
-        image = MIMEImage(img_data, name='UgadhiEventPlanner.png')
         msg.attach(image)
     # msg.attach('Instructions.png')
     # msg.attach('Ugadhi Event Planner.png')
