@@ -89,11 +89,11 @@ def permission():
 
 @app.route('/scan',methods=['POST'])
 def scan():
-    print('enterd')
+    # print('enterd')
     scanned_data = request.json.get('scanned_data')
-    print("Scanned data:", scanned_data)
+    # print("Scanned data:", scanned_data)
     decr=mydecrypt(scanned_data)
-    print(decr)
+    # print(decr)
     # return render_template('finaldata.html',data=decr)
     return jsonify({'processed_data': decr})
 
