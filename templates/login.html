@@ -1,25 +1,53 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <title>Login</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+    <style>
+        body {
+            margin: 0; /* Remove default margin */
+            padding: 0; /* Remove default padding */
+            overflow-x: hidden; /
+        }
+        .background-image {
+            position: fixed; /* Position the image relative to the viewport */
+            top: 0%; /* Place the image at the top of the viewport */
+            left: 0%; /* Place the image at the left side of the viewport */
+            width: 100%; /* Set the width to 100% of the viewport width */
+            height: 100%; /* Set the height to 100% of the viewport height */
+            z-index: -1; /* Move the image behind other content */
+        }
+
+    </style>
+  </head>
+  <body>
+    <img class="background-image" src="/static/back2.jpg" alt="Background Image">
+    <!-- <h1 style="color: rgb(214, 128, 240); font: size 400px; font-weight:900;font-style:italic;">ఉగాది</h1> -->
     <div class="form-container">
-        <h2>Login</h2>
-        <form action="/login" method="post">
-            <div class="form-group">
-                <input type="text" name="username" placeholder="Username" required>
-            </div>
-            <div class="form-group">
-                <input type="password" name="password" placeholder="Password" required>
-            </div>
-            <div class="form-group">
-                <button type="submit">Login</button>
-            </div>
-        </form>
-        <!-- <p>Don't have an account? <a href="/register">Register here</a></p>
+ 
+      <h2 >Login</h2>
+      <form action="/login" method="post">
+        <div class="form-group">
+          <input type="text" name="username" placeholder="Username" required />
+        </div>
+        <div class="form-group">
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <button type="submit">Login</button>
+        </div>
+      </form>
+      <!-- <p>Don't have an account? <a href="/register">Register here</a></p>
         <p>GET_USERS <a href="/get_users">GET_USERS</a></p> -->
     </div>
-</body>
+  </body>
 </html>

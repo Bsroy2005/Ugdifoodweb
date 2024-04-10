@@ -108,7 +108,7 @@ def mydecrypt(input_data):
     fernet = Fernet(key)
     try:
         decrypted = fernet.decrypt(data)
-        with open("my_dict.json", "r") as file:
+        with open("normal.json", "r") as file:
             read_data=json.load(file)
         # with open(output_file, 'wb') as f:
         #     f.write(decrypted)  # Write the decrypted bytes to the output file
@@ -117,12 +117,25 @@ def mydecrypt(input_data):
             out_data=read_data[out_id]
             if out_data!='QR HAS BEEN EXPIRED':
                 read_data[out_id]="QR HAS BEEN EXPIRED"
-                with open("my_dict.json", "w") as file:
+                with open("normal.json", "w") as file:
                     json.dump(read_data, file)
-            return out_data
+            return out_data 
         except:
-            return 'INVALID QR CODE'
-
+            decrypted = fernet.decrypt(data)
+            with open("guests.json", "r") as file:
+                read_data=json.load(file)
+            # with open(output_file, 'wb') as f:
+            #     f.write(decrypted)  # Write the decrypted bytes to the output file
+            out_id=decrypted.decode('utf-8')
+            try:
+                out_data=read_data[out_id]
+                if out_data!='QR HAS BEEN EXPIRED':
+                    read_data[out_id]="QR HAS BEEN EXPIRED"
+                    with open("guests.json", "w") as file:
+                        json.dump(read_data, file)
+                return out_data 
+            except:
+                return 'INVALID QR CODE'
         # Note: You can delete input_file here if you want
     except InvalidToken as e:
         return 'INVALID QR CODE'

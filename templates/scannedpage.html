@@ -26,7 +26,7 @@
     </style>
   </head>
   <body>
-    <h1>QR Code Scanner</h1>
+    <h1>UGADI FOOD TEAM</h1>
     <main>
       <div id="reader"></div>
       <div id="result"></div>
@@ -67,11 +67,22 @@
         })
         .then(data => {
         // Handle the processed data received from the server
-        const processedData = data.processed_data;
-        document.getElementById("result").innerHTML = `
-            <h2>Success!</h2>
-            <p>${processedData}</p>
-        `;
+        // const processedData = data.processed_data;
+        // document.getElementById("result").innerHTML = `
+        //     <h2>Success!</h2>
+        //     <p>${processedData}</p>
+        // `;
+          const processedData = data.processed_data;
+          const lines = processedData.split('\n'); // Split the string by newline character
+
+          // Construct HTML for each line
+          let htmlContent = '';
+          lines.forEach(line => {
+              htmlContent += `<p>${line}</p>`; // Create a paragraph element for each line
+          });
+
+          // Update the result element with the constructed HTML
+          document.getElementById("result").innerHTML = htmlContent;
         })
 
         // Prints result as a link inside result element
