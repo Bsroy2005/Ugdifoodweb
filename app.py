@@ -143,7 +143,7 @@ def mydecrypt(input_data):
 from flask import current_app
 
 # @app.route('/get_users', methods=['GET'])
-# def get_users():
+# def get_users(): 
 #     with current_app.app_context():
 #         user_to_delete = User.query.filter_by(username='UgadiFoodTeam2').first()
     
